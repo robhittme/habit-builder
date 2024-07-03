@@ -1,11 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
+
+	a "habit-builder/api"
 )
 
 type Habit struct {
@@ -87,40 +88,50 @@ func listCommands() {
 	}
 }
 func main() {
-	if len(os.Args) < 2 {
-		listCommands()
-		os.Exit(1)
+	a.InitRoutes()
 
-	}
-	switch os.Args[1] {
-	case "listHabits":
-		habits, err := loadHabits()
-		if err != nil {
-			fmt.Printf("error loading habits: %v", err)
-			os.Exit(1)
-		}
-		for _, h := range habits {
-			fmt.Println(h.Name)
-		}
+	//TODO: move this to another file and keep separate
 
-	case "addHabit":
-		var h Habit
-		scanner := bufio.NewScanner(os.Stdin)
-
-		//Name
-		fmt.Println("Enter habit name: ")
-		scanner.Scan()
-		name := scanner.Text()
-		h.Name = name
-
-		addHabit(h)
-	case "habitCompleted":
-		scanner := bufio.NewScanner(os.Stdin)
-		fmt.Println("habit to be updated")
-		scanner.Scan()
-		habitName := scanner.Text()
-		incrementHabitCounter(habitName)
-	default:
-		listCommands()
-	}
+	//	if len(os.Args) < 2 {
+	//		listCommands()
+	//		os.Exit(1)
+	//
+	// }
+	// switch os.Args[1] {
+	// case "listHabits":
+	//
+	//	habits, err := loadHabits()
+	//	if err != nil {
+	//		fmt.Printf("error loading habits: %v", err)
+	//		os.Exit(1)
+	//	}
+	//	for _, h := range habits {
+	//		fmt.Println(h.Name)
+	//	}
+	//
+	// case "addHabit":
+	//
+	//	var h Habit
+	//	scanner := bufio.NewScanner(os.Stdin)
+	//
+	//	//Name
+	//	fmt.Println("Enter habit name: ")
+	//	scanner.Scan()
+	//	name := scanner.Text()
+	//	h.Name = name
+	//
+	//	addHabit(h)
+	//
+	// case "habitCompleted":
+	//
+	//	scanner := bufio.NewScanner(os.Stdin)
+	//	fmt.Println("habit to be updated")
+	//	scanner.Scan()
+	//	habitName := scanner.Text()
+	//	incrementHabitCounter(habitName)
+	//
+	// default:
+	//
+	//		listCommands()
+	//	}
 }
